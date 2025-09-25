@@ -1,74 +1,127 @@
-import React from "react";
-import { engagementData } from "../engagementData";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from "recharts";
+import React, { useEffect, useState } from "react";
 
 const Dashboard = () => {
-	// Calculate totals
-	const totalDay = engagementData.days.reduce((sum, d) => sum + d.engagements, 0);
-	const totalWeek = engagementData.weeks.reduce((sum, w) => sum + w.engagements, 0);
-	const totalMonth = engagementData.months.reduce((sum, m) => sum + m.engagements, 0);
+  const [settings, setSettings] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
-	return (
-		<div className="container mx-auto px-4 py-8">
-			<h1 className="text-3xl font-bold mb-6">User Dashboard</h1>
-			<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-				<div className="bg-white rounded-lg shadow p-6 text-center">
-					<h2 className="text-lg font-semibold mb-2">Engagements (Last 7 Days)</h2>
-					<p className="text-2xl font-bold text-blue-600">{totalDay}</p>
-				</div>
-				<div className="bg-white rounded-lg shadow p-6 text-center">
-					<h2 className="text-lg font-semibold mb-2">Engagements (Last 4 Weeks)</h2>
-					<p className="text-2xl font-bold text-green-600">{totalWeek}</p>
-				</div>
-				<div className="bg-white rounded-lg shadow p-6 text-center">
-					<h2 className="text-lg font-semibold mb-2">Engagements (Last 4 Months)</h2>
-					<p className="text-2xl font-bold text-purple-600">{totalMonth}</p>
-				</div>
-			</div>
+  useEffect(() => {
+    fetch("/api/user/settings/", {
+      credentials: "include", // important if using session auth
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setSettings(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching settings:", err);
+        setLoading(false);
+      });
+  }, []);
 
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-				<div className="bg-white rounded-lg shadow p-6">
-					<h3 className="text-xl font-semibold mb-4">Daily Engagements</h3>
-					<ResponsiveContainer width="100%" height={300}>
-						<LineChart data={engagementData.days}>
-							<CartesianGrid strokeDasharray="3 3" />
-							<XAxis dataKey="date" />
-							<YAxis />
-							<Tooltip />
-							<Legend />
-							<Line type="monotone" dataKey="engagements" stroke="#8884d8" activeDot={{ r: 8 }} />
-						</LineChart>
-					</ResponsiveContainer>
-				</div>
-				<div className="bg-white rounded-lg shadow p-6">
-					<h3 className="text-xl font-semibold mb-4">Weekly Engagements</h3>
-					<ResponsiveContainer width="100%" height={300}>
-						<BarChart data={engagementData.weeks}>
-							<CartesianGrid strokeDasharray="3 3" />
-							<XAxis dataKey="week" />
-							<YAxis />
-							<Tooltip />
-							<Legend />
-							<Bar dataKey="engagements" fill="#82ca9d" />
-						</BarChart>
-					</ResponsiveContainer>
-				</div>
-			</div>
-			<div className="bg-white rounded-lg shadow p-6 mt-8">
-				<h3 className="text-xl font-semibold mb-4">Monthly Engagements</h3>
-				<ResponsiveContainer width="100%" height={300}>
-					<BarChart data={engagementData.months}>
-						<CartesianGrid strokeDasharray="3 3" />
-						<XAxis dataKey="month" />
-						<YAxis />
-						<Tooltip />
-						<Legend />
-						<Bar dataKey="engagements" fill="#8884d8" />
-					</BarChart>
-				</ResponsiveContainer>
-			</div>
-		</div>
-	);
+  const handleChange = (e) => {
+    setSettings({
+      ...settings,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSave = () => {
+    setSaving(true);
+    fetch("/api/user/settings/", {
+      method: "POST", // or PUT depending on your backend
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(settings),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setSettings(data);
+        setSaving(false);
+        alert("Settings updated successfully!");
+      })
+      .catch((err) => {
+        console.error("Error saving settings:", err);
+        setSaving(false);
+      });
+  };
+
+  if (loading) return <p className="text-center">Loading settings...</p>;
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">User Settings</h1>
+
+      <div className="bg-white rounded-lg shadow p-6 space-y-4">
+        <div>
+          <label className="block font-semibold">Username</label>
+          <input
+            type="text"
+            name="username"
+            value={settings.username || ""}
+            onChange={handleChange}
+            className="w-full border rounded p-2"
+          />
+        </div>
+
+        <div>
+          <label className="block font-semibold">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={settings.email || ""}
+            onChange={handleChange}
+            className="w-full border rounded p-2"
+          />
+        </div>
+
+        <div>
+          <label className="block font-semibold">Phone</label>
+          <input
+            type="text"
+            name="phone"
+            value={settings.phone || ""}
+            onChange={handleChange}
+            className="w-full border rounded p-2"
+          />
+        </div>
+
+        <div>
+          <label className="block font-semibold">Bio</label>
+          <textarea
+            name="bio"
+            value={settings.bio || ""}
+            onChange={handleChange}
+            className="w-full border rounded p-2"
+          />
+        </div>
+
+        <div>
+          <label className="block font-semibold">Theme</label>
+          <select
+            name="theme"
+            value={settings.theme || "light"}
+            onChange={handleChange}
+            className="w-full border rounded p-2"
+          >
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+
+        <button
+          onClick={handleSave}
+          disabled={saving}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          {saving ? "Saving..." : "Save Settings"}
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;
