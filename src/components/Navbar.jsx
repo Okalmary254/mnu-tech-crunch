@@ -48,6 +48,17 @@ const Navbar = () => {
               Add Post
             </Link>
           </li> */}
+          <li className="nav-item">
+            <Link to="/search" className="nav-link">
+              Search
+            </Link>
+          </li>
+            <li className="nav-item">
+            <Link to="/profile" className="nav-link">
+              Profile
+            </Link>
+          </li>
+          
         </ul>
       </div>
     </nav>

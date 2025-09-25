@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 const AddPost = () => {
   const [form, setForm] = useState({
@@ -7,6 +9,15 @@ const AddPost = () => {
     image: "",
     category: ""
   });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isAdmin = localStorage.getItem("isAdmin");
+    if (isAdmin !== "true") {
+      alert("Only admin can add posts. Please login as admin.");
+      navigate("/login");
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });

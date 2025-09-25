@@ -1,13 +1,21 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
-    alert("Logged in!");
+    // Simple admin check (replace with real auth in production)
+    if (email === "admin@site.com" && password === "admin123") {
+      localStorage.setItem("isAdmin", "true");
+      navigate("/admin");
+    } else {
+      alert("Invalid credentials. Only admin can login.");
+    }
   };
 
   return (
