@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef } from "react";
-import { posts as initialPosts } from "../data";
+import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 
 const AdminDashboard = () => {
@@ -11,7 +10,14 @@ const AdminDashboard = () => {
     bio: "Data scientist.",
     profileImage: "https://ui-avatars.com/api/?name=Admin+User",
   });
-  const [posts, setPosts] = useState(initialPosts);
+  const [posts, setPosts] = useState([]);
+  // Fetch posts from API on mount
+  useEffect(() => {
+    fetch("/api/posts/")
+      .then((res) => res.json())
+      .then((data) => setPosts(data))
+      .catch((err) => console.error("Error fetching posts:", err));
+  }, []);
   const [editingPost, setEditingPost] = useState(null);
   const [newPost, setNewPost] = useState({
     title: "",
@@ -61,18 +67,22 @@ const AdminDashboard = () => {
   const handleAddPost = (e) => {
     e.preventDefault();
     if (!newPost.title || !newPost.content) return;
-    const newAddedPost = {
+    const payload = {
       ...newPost,
-      id: Date.now(),
-      author: admin.name,
-      date: new Date().toLocaleString(),
-      excerpt: newPost.content.slice(0, 60) + "...",
+      author: 1, // TODO: Replace with actual admin user ID
     };
-    const updatedPosts = [...posts, newAddedPost];
-    setPosts(updatedPosts);
-    localStorage.setItem("posts", JSON.stringify(updatedPosts));
-    setNewPost({ title: "", content: "", image: "", category: "" });
-    setImageFile(null);
+    fetch("/api/posts/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => res.json())
+      .then((created) => {
+        setPosts((prev) => [...prev, created]);
+        setNewPost({ title: "", content: "", image: "", category: "" });
+        setImageFile(null);
+      })
+      .catch((err) => console.error("Error adding post:", err));
   };
   const handleEditPost = (post) => {
     setEditingPost(post);
@@ -80,19 +90,25 @@ const AdminDashboard = () => {
   };
   const handleUpdatePost = (e) => {
     e.preventDefault();
-    const updated = posts.map((p) =>
-      p.id === editingPost.id ? { ...editingPost, ...newPost } : p
-    );
-    setPosts(updated);
-    localStorage.setItem("posts", JSON.stringify(updated));
-    setEditingPost(null);
-    setNewPost({ title: "", content: "", image: "", category: "" });
+    if (!editingPost) return;
+    fetch(`/api/posts/${editingPost.id}/`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...editingPost, ...newPost }),
+    })
+      .then((res) => res.json())
+      .then((updated) => {
+        setPosts((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
+        setEditingPost(null);
+        setNewPost({ title: "", content: "", image: "", category: "" });
+      })
+      .catch((err) => console.error("Error updating post:", err));
   };
   const handleDeletePost = (id) => {
     if (window.confirm("Delete this post?")) {
-      const updated = posts.filter((p) => p.id !== id);
-      setPosts(updated);
-      localStorage.setItem("posts", JSON.stringify(updated));
+      fetch(`/api/posts/${id}/`, { method: "DELETE" })
+        .then(() => setPosts((prev) => prev.filter((p) => p.id !== id)))
+        .catch((err) => console.error("Error deleting post:", err));
     }
   };
 

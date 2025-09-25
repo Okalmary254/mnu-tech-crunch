@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PostCard from "../components/PostCard";
-import { posts as initialPosts } from "../data";
 import CategoryMenu from "../components/CategoryMenu";
 
 const CategoryPage = () => {
   const [selected, setSelected] = useState(null);
-  const [posts] = useState(() => {
-    const saved = localStorage.getItem("posts");
-    return saved ? JSON.parse(saved) : initialPosts;
-  });
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/posts/")
+      .then((res) => res.json())
+      .then((data) => setPosts(data));
+  }, []);
 
   const filtered = selected ? posts.filter(p => (p.category || "").toLowerCase() === selected.toLowerCase()) : posts;
 

@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PostCard from "../components/PostCard";
-import { posts } from "../data";
 
 const BlogList = () => {
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    fetch("/api/posts/")
+      .then((res) => res.json())
+      .then((data) => setPosts(data));
+  }, []);
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Blog Posts</h1>
