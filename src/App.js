@@ -5,6 +5,12 @@ import Contact from "./pages/Contact";
 import Navbar from "./components/Navbar";
 import BlogList from "./pages/BlogList";
 import BlogDetail from "./pages/BlogDetail";
+import AdminDashboard from "./pages/AdminDashboard";
+import Categories from "./pages/Categories";
+import Profile from "./pages/Profile";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import AddPost from "./pages/AddPost";
 
 function App() {
   return (
@@ -16,6 +22,12 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/blog" element={<BlogList />} />
         <Route path="/blog/:id" element={<BlogDetail />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/add-post" element={<AddPost />} />
       </Routes>
     </Router>
   );

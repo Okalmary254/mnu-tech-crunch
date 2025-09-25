@@ -5,7 +5,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="container">
         <Link to="/" className="navbar-brand">
-          TechCrunch
+          MNU Crunch
         </Link>
         <ul className="navbar-nav">
           <li className="nav-item">
@@ -14,15 +14,40 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/blog" className="nav-link">
-              Blog
+            <Link to="/business" className="nav-link">
+              Business
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/contact" className="nav-link">
-              Contact
+            <Link to="/technology" className="nav-link">
+              Technology
             </Link>
           </li>
+          <li className="nav-item">
+            <Link to="/health" className="nav-link">
+              Health
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/entertainment" className="nav-link">
+              Entertainment
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/sports" className="nav-link">
+              Sports
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/politics" className="nav-link">
+              Politics
+            </Link>
+          </li>
+            {/* <li className="nav-item">
+            <Link to="/add-post" className="nav-link">
+              Add Post
+            </Link>
+          </li> */}
         </ul>
       </div>
     </nav>
