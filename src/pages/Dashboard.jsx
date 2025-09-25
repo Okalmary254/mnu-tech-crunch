@@ -1,125 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import UserSidebar from "../components/UserSidebar";
 
 const Dashboard = () => {
-  const [settings, setSettings] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    fetch("/api/user/settings/", {
-      credentials: "include", // important if using session auth
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setSettings(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching settings:", err);
-        setLoading(false);
-      });
-  }, []);
-
-  const handleChange = (e) => {
-    setSettings({
-      ...settings,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSave = () => {
-    setSaving(true);
-    fetch("/api/user/settings/", {
-      method: "POST", // or PUT depending on your backend
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(settings),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setSettings(data);
-        setSaving(false);
-        alert("Settings updated successfully!");
-      })
-      .catch((err) => {
-        console.error("Error saving settings:", err);
-        setSaving(false);
-      });
-  };
-
-  if (loading) return <p className="text-center">Loading settings...</p>;
+  const [section, setSection] = useState("profile");
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">User Settings</h1>
-
-      <div className="bg-white rounded-lg shadow p-6 space-y-4">
-        <div>
-          <label className="block font-semibold">Username</label>
-          <input
-            type="text"
-            name="username"
-            value={settings.username || ""}
-            onChange={handleChange}
-            className="w-full border rounded p-2"
-          />
-        </div>
-
-        <div>
-          <label className="block font-semibold">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={settings.email || ""}
-            onChange={handleChange}
-            className="w-full border rounded p-2"
-          />
-        </div>
-
-        <div>
-          <label className="block font-semibold">Phone</label>
-          <input
-            type="text"
-            name="phone"
-            value={settings.phone || ""}
-            onChange={handleChange}
-            className="w-full border rounded p-2"
-          />
-        </div>
-
-        <div>
-          <label className="block font-semibold">Bio</label>
-          <textarea
-            name="bio"
-            value={settings.bio || ""}
-            onChange={handleChange}
-            className="w-full border rounded p-2"
-          />
-        </div>
-
-        <div>
-          <label className="block font-semibold">Theme</label>
-          <select
-            name="theme"
-            value={settings.theme || "light"}
-            onChange={handleChange}
-            className="w-full border rounded p-2"
-          >
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
-        </div>
-
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          {saving ? "Saving..." : "Save Settings"}
-        </button>
-      </div>
+    <div className="flex min-h-screen bg-gray-50">
+      <UserSidebar onNav={setSection} />
+      <main className="flex-1 ml-60 px-4 md:px-8 py-10 transition-all duration-300">
+        <h1 className="text-3xl font-bold mb-6">User Dashboard</h1>
+        {section === "profile" && (
+          <div className="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 className="text-xl font-semibold mb-4">Profile</h2>
+            {/* TODO: Fetch and display user profile info here */}
+            <p>Profile info goes here.</p>
+          </div>
+        )}
+        {section === "bookmarks" && (
+          <div className="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 className="text-xl font-semibold mb-4">Bookmarks / Saved Posts</h2>
+            {/* TODO: List user's saved posts */}
+            <p>Bookmarked posts will appear here.</p>
+          </div>
+        )}
+        {section === "messages" && (
+          <div className="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 className="text-xl font-semibold mb-4">Messages / Notifications</h2>
+            {/* TODO: List user messages/notifications */}
+            <p>Messages and notifications will appear here.</p>
+          </div>
+        )}
+        {section === "settings" && (
+          <div className="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 className="text-xl font-semibold mb-4">Settings</h2>
+            {/* TODO: User settings form */}
+            <p>Settings form goes here.</p>
+          </div>
+        )}
+        {section === "logout" && (
+          <div className="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 className="text-xl font-semibold mb-4">Logout</h2>
+            {/* TODO: Implement logout logic */}
+            <p>Click the button below to logout.</p>
+            <form action="/api/auth/logout/form/" method="post">
+              <button type="submit" className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-4">Logout</button>
+            </form>
+          </div>
+        )}
+      </main>
     </div>
   );
 };
