@@ -7,6 +7,7 @@ import BlogList from "./pages/BlogList";
 import BlogDetail from "./pages/BlogDetail";
 import AdminDashboard from "./pages/AdminDashboard";
 import Categories from "./pages/Categories";
+import CategoryPage from "./pages/CategoryPage";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -23,7 +24,8 @@ function App() {
         <Route path="/blog" element={<BlogList />} />
         <Route path="/blog/:id" element={<BlogDetail />} />
         <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/categories" element={<Categories />} />
+  <Route path="/categories" element={<Categories />} />
+  <Route path="/categories/browse" element={<CategoryPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

@@ -6,7 +6,9 @@ const categories = [
   "Science",
   "Health",
   "Entertainment",
-  "Sports"
+  "Sports",
+  "Politics",
+  "Other"
 ];
 
 const CategoryMenu = ({ selected, onSelect }) => {

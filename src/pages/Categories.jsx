@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Categories = () => {
   return (
@@ -12,6 +13,11 @@ const Categories = () => {
         <li>Entertainment</li>
         <li>Sports</li>
       </ul>
+      <div className="mt-6">
+        <Link to="/categories/browse" className="btn bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+          Browse by Category
+        </Link>
+      </div>
     </div>
   );
 };

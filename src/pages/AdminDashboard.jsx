@@ -146,7 +146,17 @@ const AdminDashboard = () => {
               <input type="text" name="image" value={newPost.image} onChange={handlePostChange} className="w-full border rounded px-3 py-2" placeholder="Image URL or browse below" />
               <input type="file" accept="image/*" onChange={handleImageChange} className="border rounded px-3 py-2" />
             </div>
-            <input type="text" name="category" value={newPost.category} onChange={handlePostChange} className="w-full border rounded px-3 py-2 mb-2" placeholder="Category" />
+            <select name="category" value={newPost.category} onChange={handlePostChange} className="w-full border rounded px-3 py-2 mb-2">
+              <option value="">Select Category</option>
+              <option value="Technology">Technology</option>
+              <option value="Business">Business</option>
+              <option value="Science">Science</option>
+              <option value="Health">Health</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Sports">Sports</option>
+              <option value="Politics">Politics</option>
+              <option value="Other">Other</option>
+            </select>
             <textarea name="content" value={newPost.content} onChange={handlePostChange} className="w-full border rounded px-3 py-2 mb-2" placeholder="Content" rows={4} required />
             <button type="submit" className="btn bg-green-600 hover:bg-green-700">{editingPost ? "Update Post" : "Add Post"}</button>
             {editingPost && <button type="button" className="btn bg-gray-400 ml-2" onClick={() => { setEditingPost(null); setNewPost({ title: "", content: "", image: "", category: "" }); setImageFile(null); }}>Cancel</button>}

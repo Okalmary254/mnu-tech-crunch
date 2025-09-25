@@ -10,7 +10,7 @@ const CategoryPage = () => {
     return saved ? JSON.parse(saved) : initialPosts;
   });
 
-  const filtered = selected ? posts.filter(p => p.category === selected) : posts;
+  const filtered = selected ? posts.filter(p => (p.category || "").toLowerCase() === selected.toLowerCase()) : posts;
 
   return (
     <div className="container mx-auto px-4 py-8">
