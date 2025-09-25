@@ -2,7 +2,7 @@
 export const posts = [
   {
     id: 1,
-    title: "First Blog Post",
+    title: "Campus Politics",
     author: "Jane Doe",
     date: "2025-09-25",
     excerpt: "This is a summary of the first blog post.",
@@ -11,7 +11,7 @@ export const posts = [
   },
   {
     id: 2,
-    title: "Second Blog Post",
+    title: "Campus Life",
     author: "John Smith",
     date: "2025-09-24",
     excerpt: "This is a summary of the second blog post.",
