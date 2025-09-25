@@ -1,27 +1,27 @@
-import { link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="container">
-        <a href="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand">
           TechCrunch
-        </a>
+        </Link>
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a href="/" className="nav-link">
+            <Link to="/" className="nav-link">
               Home
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a href="/post" className="nav-link">
-              Post
-            </a>
+            <Link to="/blog" className="nav-link">
+              Blog
+            </Link>
           </li>
           <li className="nav-item">
-            <a href="/contact" className="nav-link">
+            <Link to="/contact" className="nav-link">
               Contact
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
