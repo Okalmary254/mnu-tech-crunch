@@ -21,7 +21,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="container flex items-center justify-between">
-        <Link to="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand" style={{fontFamily:'Times New Roman', fontWeight:'bold', fontSize:24}}>
           MNU Crunch
         </Link>
         <ul className="navbar-nav flex-1 items-center">
