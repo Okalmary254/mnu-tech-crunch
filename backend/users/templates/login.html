@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - MNU Tech Crunch</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f3f4f6; }
+        .container { max-width: 400px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 2rem; }
+        h2 { text-align: center; color: #2563eb; }
+        .success { color: #10b981; text-align: center; }
+        .error { color: #ef4444; margin-bottom: 1rem; }
+        label { display: block; margin-top: 1rem; }
+        input { width: 100%; padding: 0.5rem; margin-top: 0.25rem; border: 1px solid #ddd; border-radius: 4px; }
+        button { margin-top: 1.5rem; width: 100%; background: #2563eb; color: #fff; border: none; padding: 0.75rem; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        button:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+<div class="container">
+     <h1 style="color: #2563eb; text-align: center;">MNU Crunch</h1>
+    <h2>Login</h2>
+    {% if success %}
+        <div class="success">Login successful!</div>
+    {% endif %}
+    {% if errors %}
+        <div class="error">
+            {% for field, error_list in errors.items %}
+                <div>{{ field }}: {{ error_list|join:', ' }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label>Username
+            <input type="text" name="username" required>
+        </label>
+        <label>Password
+            <input type="password" name="password" required>
+        </label>
+        <button type="submit">Login</button>
+    </form>
+</div>
+</body>
+</html>

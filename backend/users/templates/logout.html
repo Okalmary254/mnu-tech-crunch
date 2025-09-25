@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Logout - MNU Tech Crunch</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f3f4f6; }
+        .container { max-width: 400px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 2rem; }
+        h2 { text-align: center; color: #2563eb; }
+        .success { color: #10b981; text-align: center; }
+        button { margin-top: 1.5rem; width: 100%; background: #ef4444; color: #fff; border: none; padding: 0.75rem; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        button:hover { background: #b91c1c; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Logout</h2>
+    {% if success %}
+        <div class="success">You have been logged out.</div>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    {% endif %}
+</div>
+</body>
+</html>

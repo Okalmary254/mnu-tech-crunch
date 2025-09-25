@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    'rest_framework',
 ]
 
 # Use custom user model
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'users' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
