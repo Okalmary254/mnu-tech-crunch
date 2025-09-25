@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useRef } from "react";
 import { posts as initialPosts } from "../data";
 import Sidebar from "../components/Sidebar";

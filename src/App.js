@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import BlogList from "./pages/BlogList";
 import BlogDetail from "./pages/BlogDetail";
 import AdminDashboard from "./pages/AdminDashboard";
+import Dashboard from "./pages/Dashboard";
 import Categories from "./pages/Categories";
 import CategoryPage from "./pages/CategoryPage";
 import Profile from "./pages/Profile";
@@ -24,8 +25,9 @@ function App() {
         <Route path="/blog" element={<BlogList />} />
         <Route path="/blog/:id" element={<BlogDetail />} />
         <Route path="/admin" element={<AdminDashboard />} />
-  <Route path="/categories" element={<Categories />} />
-  <Route path="/categories/browse" element={<CategoryPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/categories/browse" element={<CategoryPage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
