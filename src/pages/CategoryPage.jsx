@@ -7,7 +7,7 @@ const CategoryPage = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetch("/api/posts/")
+    fetch("http://localhost:8000/api/posts/")
       .then((res) => res.json())
       .then((data) => setPosts(data));
   }, []);

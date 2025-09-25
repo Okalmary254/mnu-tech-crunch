@@ -10,9 +10,9 @@ const Dashboard = () => {
   // Fetch user data on mount
   useEffect(() => {
     axios
-      .get("/api/user/", {
+      .get("/api/users/me/", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Adjust if using session auth
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       })
       .then((res) => {
@@ -50,7 +50,7 @@ const Dashboard = () => {
                 <p className="text-gray-600">@{user.username}</p>
                 <p className="text-gray-500">{user.email}</p>
                 <p className="text-sm text-gray-400 mt-1">
-                  Joined: {new Date(user.date_joined).toLocaleDateString()}
+                  Joined: {user.date_joined ? new Date(user.date_joined).toLocaleDateString() : ""}
                 </p>
               </div>
             </div>
@@ -63,57 +63,23 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* BOOKMARKS SECTION */}
+        {/* BOOKMARKS SECTION (not implemented) */}
         {section === "bookmarks" && (
           <div className="bg-white rounded-lg shadow p-6 mb-6">
             <h2 className="text-xl font-semibold mb-4">
               Bookmarks / Saved Posts
             </h2>
-            {user.bookmarks && user.bookmarks.length > 0 ? (
-              <ul className="space-y-3">
-                {user.bookmarks.map((post) => (
-                  <li
-                    key={post.id}
-                    className="p-4 border rounded-lg hover:bg-gray-50 transition"
-                  >
-                    <h3 className="font-medium">{post.title}</h3>
-                    <p className="text-sm text-gray-600">
-                      {post.excerpt.substring(0, 100)}...
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-gray-500">You haven’t saved any posts yet.</p>
-            )}
+            <p className="text-gray-500">Bookmarks are not available.</p>
           </div>
         )}
 
-        {/* MESSAGES SECTION */}
+        {/* MESSAGES SECTION (not implemented) */}
         {section === "messages" && (
           <div className="bg-white rounded-lg shadow p-6 mb-6">
             <h2 className="text-xl font-semibold mb-4">
               Messages / Notifications
             </h2>
-            {user.notifications && user.notifications.length > 0 ? (
-              <ul className="space-y-3">
-                {user.notifications.map((msg) => (
-                  <li
-                    key={msg.id}
-                    className="p-4 border rounded-lg hover:bg-gray-50 transition"
-                  >
-                    <p className="text-sm text-gray-700">{msg.message}</p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      {new Date(msg.timestamp).toLocaleString()}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-gray-500">
-                No new messages or notifications.
-              </p>
-            )}
+            <p className="text-gray-500">No new messages or notifications.</p>
           </div>
         )}
 
@@ -128,11 +94,12 @@ const Dashboard = () => {
                 </label>
                 <input
                   type="text"
-                  value={user.full_name}
+                  value={user.full_name || ""}
                   onChange={(e) =>
                     setUser({ ...user, full_name: e.target.value })
                   }
                   className="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200"
+                  readOnly
                 />
               </div>
               <div>

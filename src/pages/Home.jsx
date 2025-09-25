@@ -1,25 +1,18 @@
 
+
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import PostCard from "../components/PostCard";
-import { posts as initialPosts } from "../data";
 import Header from "../components/Header";
-
 
 const Home = () => {
     const location = useLocation();
-    const [posts, setPosts] = useState(() => {
-        const saved = localStorage.getItem("posts");
-        return saved ? JSON.parse(saved) : initialPosts;
-    });
+    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        const handleStorage = () => {
-            const saved = localStorage.getItem("posts");
-            if (saved) setPosts(JSON.parse(saved));
-        };
-        window.addEventListener("storage", handleStorage);
-        return () => window.removeEventListener("storage", handleStorage);
+        fetch("http://localhost:8000/api/posts/")
+            .then((res) => res.json())
+            .then((data) => setPosts(data));
     }, []);
 
     // Get search query from URL
