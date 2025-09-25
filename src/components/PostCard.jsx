@@ -79,7 +79,13 @@ const PostCard = ({ post }) => {
   return (
     <div className="card" id={`post-${post.id}`}> {/* Card wrapper */}
       {post.image && (
-        <img src={post.image} alt={post.title} className="w-full h-48 object-cover rounded-t-lg" />
+        <div style={{ width: '100%', aspectRatio: '16/9', overflow: 'hidden', borderRadius: '0.75rem 0.75rem 0 0', background: '#f3f4f6' }}>
+          <img
+            src={post.image}
+            alt={post.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </div>
       )}
       <div className="p-4">
         <h2 className="text-xl font-bold mb-2">{post.title}</h2>
